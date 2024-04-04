@@ -12,6 +12,12 @@ import { sortByLastName } from "./util/helpers";
 function App() {
   const [users, setUsers] = useState(userData);
 
+  const removeUser = (userId, users) => {
+    const index = users.findIndex((user) => user.id === userId);
+    users.splice(index, 1);
+    setUsers([...users]);
+  };
+
   // Create Users list
   const listItems = users.sort(sortByLastName).map((user) => (
     <li className="nav-item" key={user.id}>
@@ -38,7 +44,7 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route
                 path="/users/:userId"
-                element={<UserView users={users} />}
+                element={<UserView users={users} removeUser={removeUser} />}
               />
               <Route path="*" element={<NoMatch />} />
             </Routes>

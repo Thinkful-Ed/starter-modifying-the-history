@@ -1,10 +1,14 @@
 import { useParams } from "react-router-dom";
 
-function UserView({ users }) {
+function UserView({ users, removeUser }) {
   const { userId } = useParams();
-  const current = users.find(({ id }) => id === Number(userId));
-  const { id, name, email } = current;
+  const current = users.find(({ id }) => id === Number(userId)) || {};
+  const { id, name = "", email } = current;
   const [first, last] = name.split(" ");
+
+  const manageDeleteUser = () => {
+    removeUser(current.id, users);
+  };
 
   return (
     <div className="px-5">
@@ -36,7 +40,12 @@ function UserView({ users }) {
             <td>{last}</td>
             <td>{email}</td>
             <td>
-              <button className="btn btn-danger btn-sm">Delete User</button>
+              <button
+                className="btn btn-danger btn-sm"
+                onClick={manageDeleteUser}
+              >
+                Delete User
+              </button>
             </td>
           </tr>
         </tbody>
